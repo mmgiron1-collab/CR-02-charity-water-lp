@@ -1,47 +1,368 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charity Water Landing Page</title>
-    <link rel="stylesheet" href="styles.css">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>charity: water — Campus Fundraisers</title>
+	<meta name="description" content="Start a campus fundraiser and help bring clean water to communities in need." />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Hero Section: This is the main banner at the top of the page -->
-    <section class="hero">
-        <!-- Main headline -->
-        <h1>Clean Water for Everyone</h1>
-        <!-- Subheadline -->
-        <p>Join us in bringing safe, clean water to communities in need.</p>
-    </section>
 
-    <!-- Story Section: This tells the story of the nonprofit -->
-    <section class="story">
-        <h2>Our Story</h2>
-        <p>
-         
-    </section>
+	<!-- Sticky header: logo top-left, pills top-right -->
+	<header class="site-header">
+		<div class="container header-container">
+			<nav class="nav" aria-label="Primary">
+				<a class="brand" href="#">
+					<img src="assets/logo.png" alt="charity: water">
+					<span>charity: water</span>
+				</a>
+				<div class="menu">
+					<a href="#projects" class="pill">Projects</a>
+					<a href="#about" class="pill">About</a>
+					<a href="#donate" class="pill pill--primary">Donate</a>
+				</div>
+			</nav>
+		</div>
+	</header>
 
-    <!-- Real-World Impact Story Section -->
-    <section class="impact-story">
-        <!-- Section headline -->
-        <h2>Real Impact: Meet Amina</h2>
-        <!-- Container for image and text -->
-        <div class="impact-content">
-            <!-- Impact image -->
-            <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=600&q=80" alt="Amina smiling with clean water" class="impact-image">
-            <!-- Impact story text -->
-            <p>
-                Amina uo walk miles every day to collect water for her family. Thanks to your support, her village now has a clean water well. Amina can go to school and her family is healthier and happier.
-            </p>
-        </div>
-    </section>
+	<!-- Full-bleed hero. Image set in CSS. ONE CTA bottom-right. -->
+	<section class="hero-full" role="img" aria-label="Students celebrating clean water">
+		<!-- Invisible anchors INSIDE the hero (no layout space) -->
+		<div id="projects" class="anchor" aria-hidden="true" role="none"></div>
+		<div id="about"    class="anchor" aria-hidden="true" role="none"></div>
+		<div id="donate"   class="anchor" aria-hidden="true" role="none"></div>
 
-    <!-- Call-to-Action Section: This encourages visitors to take action -->
-    <section class="call-to-action">
-        <h2>Make a Difference</h2>
-        <p>Your support can help save lives. Every donation brings us closer to a world with clean water for all.</p>
-        <a href="#" class="donate-button">Donate Now</a>
-    </section>
+		<a href="#" class="pill pill--primary hero-cta">Start a Fundraiser</a>
+	</section>
+
+	<!-- Divider above footer -->
+	<div class="hero-divider" aria-hidden="true"></div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-container">
+			<p>© <span id="year"></span> charity: water. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script>
+		(function () {
+			const body = document.body;
+			const links = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+			const linkById = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+
+			function setActive(id){
+				links.forEach(a => a.classList.toggle('active', a === linkById.get(id)));
+			}
+			links.forEach(a => a.addEventListener('click', () => {
+				setActive(a.getAttribute('href').slice(1));
+			}));
+
+			const headerH = parseInt(getComputedStyle(document.documentElement)
+												.getPropertyValue('--header-h')) || 64;
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+			}, { rootMargin: `-${headerH + 8}px 0px -60% 0px`, threshold: 0.01 });
+
+			['projects','about','donate']
+				.map(id => document.getElementById(id))
+				.filter(Boolean)
+				.forEach(el => observer.observe(el));
+
+			const COMPACT_AT = 40;
+			const onScroll = () => {
+				if (window.scrollY > COMPACT_AT) body.classList.add('has-compact-header');
+				else body.classList.remove('has-compact-header');
+			};
+			onScroll();
+			window.addEventListener('scroll', onScroll, { passive: true });
+
+			document.getElementById('year').textContent = new Date().getFullYear();
+		})();
+	</script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>charity: water — Campus Fundraisers</title>
+	<meta name="description" content="Start a campus fundraiser and help bring clean water to communities in need." />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+	<!-- Sticky header: logo top-left, pills top-right -->
+	<header class="site-header">
+		<div class="container header-container">
+			<nav class="nav" aria-label="Primary">
+				<a class="brand" href="#">
+					<img src="assets/logo.png" alt="charity: water">
+					<span>charity: water</span>
+				</a>
+				<div class="menu">
+					<a href="#projects" class="pill">Projects</a>
+					<a href="#about" class="pill">About</a>
+					<a href="#donate" class="pill pill--primary">Donate</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<!-- Full-bleed hero. Image set in CSS. ONE CTA bottom-right. -->
+	<section class="hero-full" role="img" aria-label="Students celebrating clean water">
+		<!-- Invisible anchors INSIDE the hero (no layout space) -->
+		<div id="projects" class="anchor" aria-hidden="true" role="none"></div>
+		<div id="about"    class="anchor" aria-hidden="true" role="none"></div>
+		<div id="donate"   class="anchor" aria-hidden="true" role="none"></div>
+
+		<a href="#" class="pill pill--primary hero-cta">Start a Fundraiser</a>
+	</section>
+
+	<!-- Divider above footer -->
+	<div class="hero-divider" aria-hidden="true"></div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-container">
+			<p>© <span id="year"></span> charity: water. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<script>
+		(function () {
+			const body = document.body;
+			const links = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+			const linkById = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+
+			function setActive(id){
+				links.forEach(a => a.classList.toggle('active', a === linkById.get(id)));
+			}
+			links.forEach(a => a.addEventListener('click', () => {
+				setActive(a.getAttribute('href').slice(1));
+			}));
+
+			const headerH = parseInt(getComputedStyle(document.documentElement)
+												.getPropertyValue('--header-h')) || 64;
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+			}, { rootMargin: `-${headerH + 8}px 0px -60% 0px`, threshold: 0.01 });
+
+			['projects','about','donate']
+				.map(id => document.getElementById(id))
+				.filter(Boolean)
+				.forEach(el => observer.observe(el));
+
+			const COMPACT_AT = 40;
+			const onScroll = () => {
+				if (window.scrollY > COMPACT_AT) body.classList.add('has-compact-header');
+				else body.classList.remove('has-compact-header');
+			};
+			onScroll();
+			window.addEventListener('scroll', onScroll, { passive: true });
+
+			document.getElementById('year').textContent = new Date().getFullYear();
+		})();
+	</script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>charity: water — Campus Fundraisers</title>
+	<meta name="description" content="Start a campus fundraiser and help bring clean water to communities in need." />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+	<!-- Sticky header: logo top-left, pills top-right -->
+	<header class="site-header">
+		<div class="container header-container">
+			<nav class="nav" aria-label="Primary">
+				<a class="brand" href="#">
+					<img src="assets/logo.png" alt="charity: water">
+					<span>charity: water</span>
+				</a>
+				<div class="menu">
+					<a href="#projects" class="pill">Projects</a>
+					<a href="#about"    class="pill">About</a>
+					<a href="#donate"   class="pill pill--primary">Donate</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<!-- Full-bleed hero (single CTA bottom-right). Image set in CSS. -->
+	<section class="hero-full" role="img" aria-label="Students celebrating clean water">
+		<!-- Invisible anchors INSIDE the hero (no layout space) -->
+		<div id="projects" class="anchor" aria-hidden="true" role="none"></div>
+		<div id="about"    class="anchor" aria-hidden="true" role="none"></div>
+		<div id="donate"   class="anchor" aria-hidden="true" role="none"></div>
+
+		<!-- Replace # with your real fundraiser URL -->
+		<a href="#" class="pill pill--primary hero-cta">Start a Fundraiser</a>
+	</section>
+
+	<!-- Divider above footer -->
+	<div class="hero-divider" aria-hidden="true"></div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-container">
+			<p>© <span id="year"></span> charity: water. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<!-- JS: active-pill highlight, compact header on scroll, year -->
+	<script>
+		(function () {
+			const body = document.body;
+			const links = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+			const linkById = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+
+			function setActive(id){
+				links.forEach(a => a.classList.toggle('active', a === linkById.get(id)));
+			}
+
+			// highlight immediately on click
+			links.forEach(a => a.addEventListener('click', () => {
+				setActive(a.getAttribute('href').slice(1));
+			}));
+
+			// observe tiny anchors inside the hero
+			const headerH = parseInt(getComputedStyle(document.documentElement)
+												.getPropertyValue('--header-h')) || 64;
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+			}, {
+				rootMargin: `-${headerH + 8}px 0px -60% 0px`,
+				threshold: 0.01
+			});
+
+			['projects','about','donate']
+				.map(id => document.getElementById(id))
+				.filter(Boolean)
+				.forEach(el => observer.observe(el));
+
+			// compact header on scroll
+			const COMPACT_AT = 40;
+			const onScroll = () => {
+				if (window.scrollY > COMPACT_AT) body.classList.add('has-compact-header');
+				else body.classList.remove('has-compact-header');
+			};
+			onScroll();
+			window.addEventListener('scroll', onScroll, { passive: true });
+
+			// footer year
+			document.getElementById('year').textContent = new Date().getFullYear();
+		})();
+	</script>
+</body>
+</html>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>charity: water — Campus Fundraisers</title>
+	<meta name="description" content="Start a campus fundraiser and help bring clean water to communities in need." />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+	<!-- Sticky header: logo top-left, pills top-right -->
+	<header class="site-header">
+		<div class="container header-container">
+			<nav class="nav" aria-label="Primary">
+				<a class="brand" href="#">
+					<img src="assets/logo.png" alt="charity: water">
+					<span>charity: water</span>
+				</a>
+				<div class="menu">
+					<a href="#projects" class="pill">Projects</a>
+					<a href="#about"    class="pill">About</a>
+					<a href="#donate"   class="pill pill--primary">Donate</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+
+	<!-- Full-bleed hero (single CTA bottom-right). Image set in CSS. -->
+	<section class="hero-full" role="img" aria-label="Students celebrating clean water">
+		<!-- Invisible anchors INSIDE the hero (no layout space) -->
+		<div id="projects" class="anchor" aria-hidden="true" role="none"></div>
+		<div id="about"    class="anchor" aria-hidden="true" role="none"></div>
+		<div id="donate"   class="anchor" aria-hidden="true" role="none"></div>
+
+		<!-- Replace # with your real fundraiser URL -->
+		<a href="#" class="pill pill--primary hero-cta">Start a Fundraiser</a>
+	</section>
+
+	<!-- Divider above footer -->
+	<div class="hero-divider" aria-hidden="true"></div>
+
+	<!-- Footer -->
+	<footer class="footer">
+		<div class="footer-container">
+			<p>© <span id="year"></span> charity: water. All rights reserved.</p>
+		</div>
+	</footer>
+
+	<!-- JS: active-pill highlight, compact header on scroll, year -->
+	<script>
+		(function () {
+			const body = document.body;
+			const links = Array.from(document.querySelectorAll('.menu a[href^="#"]'));
+			const linkById = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+
+			function setActive(id){
+				links.forEach(a => a.classList.toggle('active', a === linkById.get(id)));
+			}
+
+			// highlight immediately on click
+			links.forEach(a => a.addEventListener('click', () => {
+				setActive(a.getAttribute('href').slice(1));
+			}));
+
+			// observe tiny anchors inside the hero
+			const headerH = parseInt(getComputedStyle(document.documentElement)
+												.getPropertyValue('--header-h')) || 64;
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); });
+			}, {
+				rootMargin: `-${headerH + 8}px 0px -60% 0px`,
+				threshold: 0.01
+			});
+
+			['projects','about','donate']
+				.map(id => document.getElementById(id))
+				.filter(Boolean)
+				.forEach(el => observer.observe(el));
+
+			// compact header on scroll
+			const COMPACT_AT = 40;
+			const onScroll = () => {
+				if (window.scrollY > COMPACT_AT) body.classList.add('has-compact-header');
+				else body.classList.remove('has-compact-header');
+			};
+			onScroll();
+			window.addEventListener('scroll', onScroll, { passive: true });
+
+			// footer year
+			document.getElementById('year').textContent = new Date().getFullYear();
+		})();
+	</script>
 </body>
 </html>
